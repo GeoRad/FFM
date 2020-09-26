@@ -82,7 +82,7 @@ var owsrootUrl = new L.GeoJSON();
          outputFormat: 'text/javascript',
          format_options: 'callback:getJson',
          SrsName: 'EPSG:4326',
-         maxFeatures: '90'
+         maxFeatures: '1200'
      };
 
      var parameters = L.Util.extend(defaultParameters);
@@ -95,12 +95,12 @@ var owsrootUrl = new L.GeoJSON();
          jsonpCallback: 'getJson',
          success: function (response) {
              WFSLayer = L.geoJson(response, {
-                 style: function (feature) {
-                     return {
-                         stroke: false,
-                         fillColor: 'FFFFFF',
-                         fillOpacity: 0
-                     };
+                 pointToLayer: function (feature, latlng) {
+                    return new L.circleMarker(latlng, {radius: 3,
+      fillOpcaity: 1,
+      color: '#1a9641', 
+      fillColor: getColor(feature.properties.combined),
+      weight: 0,});
                  },
                  onEachFeature: function (feature, layer) {
                      popupOptions = { maxWidth: 200 };
