@@ -14,11 +14,13 @@
 
     <script>
 
-  var map = L.map('map').setView([50.110924, 8.682127], 12);
+  var map = L.map('map', {
+    preferCanvas: true
+  }).setView([50.110924, 8.682127], 12);
   
   //Create baselayer - tiles         
   var backgroundMap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',{
-    attribution: '<a href="https://openstreetmap.org">OpenStreetMap</a>contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+    attribution: '<a href="https://openstreetmap.org">OpenStreetMap</a>contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
     maxZoom: 19
     }
   );
@@ -55,11 +57,11 @@ const wfstPointOptions = {
   crs: L.CRS.EPSG4326,
   //showExisting: true,
   geometryField: 'the_geom',
-  url: 'https://207.154.234.103:8080/geoserver/GeoRad-FFM/wfs',
+  url: 'http://georad.live/geoserver/GeoRad-FFM/wfs',
   typeNS: 'GeoRad-FFM',
   typeName: 'resultsgeofin',
   forceMulti: true,
-  maxFeatures: 900,
+  maxFeatures: 90,
   opacity: 0,
   //style: function(layer) {
     // you can use if statemt etc
@@ -72,7 +74,7 @@ const wfstPointOptions = {
 }
 
 var owsrootUrl = new L.GeoJSON();
-     owsrootUrl = 'https://207.154.234.103:8080/geoserver/GeoRad-FFM/ows';
+     owsrootUrl = 'http://georad.live/geoserver/GeoRad-FFM/ows';
 
      var defaultParameters = {
          service: 'WFS',
@@ -82,7 +84,7 @@ var owsrootUrl = new L.GeoJSON();
          outputFormat: 'text/javascript',
          format_options: 'callback:getJson',
          SrsName: 'EPSG:4326',
-         maxFeatures: '1200'
+         maxFeatures: '90000'
      };
 
      var parameters = L.Util.extend(defaultParameters);
@@ -97,7 +99,7 @@ var owsrootUrl = new L.GeoJSON();
              WFSLayer = L.geoJson(response, {
                  pointToLayer: function (feature, latlng) {
                     return new L.circleMarker(latlng, {radius: 3,
-      fillOpcaity: 1,
+      fillOpacity: 1,
       color: '#1a9641', 
       fillColor: getColor(feature.properties.combined),
       weight: 0,});
